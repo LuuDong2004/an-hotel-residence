@@ -88,6 +88,8 @@ function Message({ m, onChip, onNavigate, last }) {
   )
 }
 
+const quick = 'grid size-11 place-items-center rounded-full border border-line bg-white shadow-soft transition-transform duration-300 hover:-translate-y-0.5 hover:scale-105'
+
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([welcome])
@@ -195,6 +197,29 @@ export default function ChatBot() {
               </button>
             </form>
           </motion.section>
+        )}
+      </AnimatePresence>
+
+      {/* Ba nút liên hệ nhanh, xếp dọc ngay trên nút trợ lý */}
+      <AnimatePresence>
+        {!open && (
+          <motion.div
+            className="fixed right-[22px] bottom-[82px] z-30 flex flex-col gap-2 md:right-[30px] md:bottom-[92px]"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.35, ease }}
+          >
+            <a href={contact.messenger} target="_blank" rel="noreferrer" aria-label="Chat Messenger" title="Chat Messenger" className={`${quick} text-[#0084ff]`}>
+              <MessengerIcon size={22} />
+            </a>
+            <a href={contact.zalo} target="_blank" rel="noreferrer" aria-label="Chat Zalo" title="Chat Zalo" className={`${quick} text-[#0068ff] [--zalo-ink:#fff]`}>
+              <ZaloIcon size={26} />
+            </a>
+            <a href={contact.phoneHref} aria-label={`Gọi ${contact.phone}`} title={`Gọi ${contact.phone}`} className={`${quick} text-[#1a9f53]`}>
+              <Phone size={20} strokeWidth={1.9} />
+            </a>
+          </motion.div>
         )}
       </AnimatePresence>
 
