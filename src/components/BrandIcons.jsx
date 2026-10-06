@@ -20,7 +20,7 @@ export function FacebookIcon({ size = 20, ...props }) {
 export function ZaloIcon({ size = 20, ...props }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden {...props}>
-      <rect x="1.5" y="3" width="21" height="18" rx="5" fill="currentColor" />
+      <rect x="1.5" y="3" width="21" height="18" rx="5" fill="#0068ff" />
       <text
         x="12"
         y="15.2"
@@ -28,7 +28,7 @@ export function ZaloIcon({ size = 20, ...props }) {
         fontFamily="Arial, Helvetica, sans-serif"
         fontSize="7.6"
         fontWeight="700"
-        fill="var(--zalo-ink, var(--color-paper))"
+        fill="#fff"
         style={{ letterSpacing: 0, textTransform: "none" }}
       >
         Zalo

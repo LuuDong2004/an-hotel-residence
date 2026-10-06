@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowUp, ArrowUpRight, Phone, BotMessageSquare, X } from 'lucide-react'
+import { ArrowUp, ArrowUpRight, BotMessageSquare, Headset, Phone, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { contact, rooms } from '../data/site'
@@ -92,6 +92,23 @@ const quick = 'grid size-11 place-items-center rounded-full border border-line b
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
+  const [dial, setDial] = useState(false)
+  const dialRef = useRef(null)
+
+  // Cụm liên hệ nhanh tự thu lại khi bấm ra ngoài hoặc cuộn trang
+  useEffect(() => {
+    if (!dial) return
+    const close = (e) => {
+      if (e.type === 'pointerdown' && dialRef.current?.contains(e.target)) return
+      setDial(false)
+    }
+    document.addEventListener('pointerdown', close)
+    window.addEventListener('scroll', close, { passive: true })
+    return () => {
+      document.removeEventListener('pointerdown', close)
+      window.removeEventListener('scroll', close)
+    }
+  }, [dial])
   const [messages, setMessages] = useState([welcome])
   const [draft, setDraft] = useState({})
   const [typing, setTyping] = useState(false)
@@ -200,25 +217,53 @@ export default function ChatBot() {
         )}
       </AnimatePresence>
 
-      {/* Ba nút liên hệ nhanh, xếp dọc ngay trên nút trợ lý */}
+      {/* Liên hệ nhanh: một nút tròn, bấm thì bung ra Messenger / Zalo / gọi điện */}
       <AnimatePresence>
         {!open && (
           <motion.div
-            className="fixed right-[22px] bottom-[82px] z-30 flex flex-col gap-2 md:right-[30px] md:bottom-[92px]"
+            ref={dialRef}
+            className="fixed right-[22px] bottom-[82px] z-30 flex flex-col items-center gap-2 md:right-[30px] md:bottom-[92px]"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.35, ease }}
           >
-            <a href={contact.messenger} target="_blank" rel="noreferrer" aria-label="Chat Messenger" title="Chat Messenger" className={`${quick} text-[#0084ff]`}>
-              <MessengerIcon size={22} />
-            </a>
-            <a href={contact.zalo} target="_blank" rel="noreferrer" aria-label="Chat Zalo" title="Chat Zalo" className={`${quick} text-[#0068ff] [--zalo-ink:#fff]`}>
-              <ZaloIcon size={26} />
-            </a>
-            <a href={contact.phoneHref} aria-label={`Gọi ${contact.phone}`} title={`Gọi ${contact.phone}`} className={`${quick} text-[#1a9f53]`}>
-              <Phone size={20} strokeWidth={1.9} />
-            </a>
+            <AnimatePresence>
+              {dial &&
+                [
+                  { key: 'mes', href: contact.messenger, label: 'Chat Messenger', external: true, className: 'text-[#0084ff]', icon: <MessengerIcon size={22} /> },
+                  { key: 'zalo', href: contact.zalo, label: 'Chat Zalo', external: true, className: '', icon: <ZaloIcon size={26} /> },
+                  { key: 'tel', href: contact.phoneHref, label: `Gọi ${contact.phone}`, className: 'text-[#1a9f53]', icon: <Phone size={20} strokeWidth={1.9} /> },
+                ].map((c, i) => (
+                  <motion.a
+                    key={c.key}
+                    href={c.href}
+                    target={c.external ? '_blank' : undefined}
+                    rel={c.external ? 'noreferrer' : undefined}
+                    aria-label={c.label}
+                    title={c.label}
+                    className={`${quick} ${c.className}`}
+                    initial={{ opacity: 0, y: 14, scale: 0.6 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.6 }}
+                    transition={{ duration: 0.25, delay: (2 - i) * 0.05, ease }}
+                  >
+                    {c.icon}
+                  </motion.a>
+                ))}
+            </AnimatePresence>
+            <button
+              type="button"
+              onClick={() => setDial((v) => !v)}
+              aria-expanded={dial}
+              aria-label={dial ? 'Thu gọn liên hệ nhanh' : 'Liên hệ nhanh: Messenger, Zalo, gọi điện'}
+              title="Liên hệ nhanh"
+              className={`${quick} text-ink`}
+            >
+              <motion.span key={dial ? 'x' : 'h'} initial={{ rotate: -60, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} transition={{ duration: 0.2 }}>
+                {dial ? <X size={19} strokeWidth={1.8} /> : <Headset size={20} strokeWidth={1.7} />}
+              </motion.span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
