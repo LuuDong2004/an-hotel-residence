@@ -170,7 +170,7 @@ export default function Booking() {
               <Stepper label="Số khách" icon={Users} value={guests} onChange={setGuests} min={1} max={2} unit="khách" />
             </div>
 
-            <label className="mt-5 flex cursor-pointer items-start gap-4 rounded-3xl border border-line bg-white p-5 transition-colors hover:border-gold has-checked:border-ink has-checked:bg-ivory/60">
+            <label className="mt-5 flex cursor-pointer flex-wrap items-start gap-x-4 gap-y-2 rounded-3xl border border-line bg-white p-5 transition-colors hover:border-gold has-checked:border-ink has-checked:bg-ivory/60">
               <input type="checkbox" className="peer sr-only" checked={withDecoration} onChange={(e) => setWithDecoration(e.target.checked)} />
               <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-3xl border border-line bg-white text-transparent peer-checked:border-ink peer-checked:bg-ink peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold">
                 <Check size={15} strokeWidth={2.5} />
@@ -181,7 +181,7 @@ export default function Booking() {
                 </span>
                 <span className="mt-1 block text-[13.5px] text-mute">Gói {decoration.name}: standee & hoa, bóng bay, box hoa hồng, nến và set ly vang.</span>
               </span>
-              <span className="shrink-0 font-display text-[22px] text-gold-deep">+{formatVND(decoration.price)}</span>
+              <span className="basis-full pl-10 text-[18px] font-medium text-gold-deep sm:shrink-0 sm:basis-auto sm:pl-0 sm:text-[22px]">+{formatVND(decoration.price)}</span>
             </label>
           </section>
 
@@ -280,8 +280,8 @@ export default function Booking() {
                     ))}
                   </ul>
                   <p className="mt-6 flex items-baseline justify-between gap-4 border-t border-gold pt-5">
-                    <span className="text-[11px] font-medium tracking-[0.06em] uppercase">Tổng cộng</span>
-                    <span className="font-display text-[38px] leading-none text-gold-deep tabular-nums">{formatVND(result.total)}</span>
+                    <span className="text-[12.5px] font-medium whitespace-nowrap text-mute">Tổng cộng</span>
+                    <span className="text-[28px] leading-none font-medium tracking-[-0.03em] whitespace-nowrap text-gold-deep tabular-nums sm:text-[36px]">{formatVND(result.total)}</span>
                   </p>
                 </>
               ) : (

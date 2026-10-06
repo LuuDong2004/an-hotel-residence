@@ -67,7 +67,7 @@ function Header() {
         animate={{ y: hidden && !open ? -110 : 0, opacity: 1 }}
         transition={{ duration: 0.6, ease }}
       >
-        <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 rounded-full border border-white/60 bg-white/85 py-2 pr-2 pl-3 shadow-soft backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-full items-center justify-between gap-4 rounded-full whitespace-nowrap lg:w-fit lg:gap-8 border border-white/60 bg-white/85 py-2 pr-2 pl-3 shadow-soft backdrop-blur-xl">
           <Logo onClick={() => setOpen(false)} />
 
           <nav aria-label="Điều hướng chính" className="hidden items-center gap-1 lg:flex">
@@ -119,7 +119,7 @@ function Header() {
               transition={{ duration: 0.3 }}
             />
             <motion.div
-              className="fixed inset-x-3 top-[88px] z-40 mx-auto max-h-[calc(100dvh-104px)] max-w-[1180px] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-[32px] border border-white/60 bg-paper p-3 shadow-pop md:inset-x-6"
+              className="fixed inset-x-3 top-[88px] z-40 mx-auto max-h-[calc(100dvh-104px)] max-w-[980px] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-[32px] border border-white/60 bg-paper p-3 shadow-pop md:inset-x-6"
               initial={{ opacity: 0, y: -18, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
@@ -136,7 +136,7 @@ function Header() {
                           end={item.to === '/'}
                           onClick={() => setOpen(false)}
                           className={({ isActive }) =>
-                            `group flex h-full items-center gap-4 rounded-3xl border bg-white p-3.5 transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-white ${isActive ? 'border-ink' : 'border-transparent'}`
+                            `group flex h-full items-center gap-3.5 rounded-3xl border bg-white p-2.5 transition-colors sm:gap-4 sm:p-3.5 duration-300 hover:border-ink hover:bg-ink hover:text-white ${isActive ? 'border-ink' : 'border-transparent'}`
                           }
                         >
                           <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-paper text-gold-deep transition-colors duration-300 group-hover:bg-white/15 group-hover:text-gold-soft">
@@ -154,7 +154,7 @@ function Header() {
                 </nav>
 
                 <motion.div
-                  className="relative isolate flex min-h-[300px] flex-col justify-end overflow-hidden rounded-3xl p-6 text-snow"
+                  className="relative isolate flex min-h-[230px] flex-col justify-end overflow-hidden rounded-3xl p-5 text-snow lg:min-h-[300px] lg:p-6"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2, ease }}
@@ -162,7 +162,7 @@ function Header() {
                   <img src="/images/rooms/suite/dsc00397-hdr-1.jpg" alt="" className="absolute inset-0 -z-20 size-full object-cover" />
                   <div className="absolute inset-0 -z-10 bg-linear-to-t from-black/80 via-black/30 to-black/10" />
                   <p className="text-[13px] text-snow/75">Phòng từ 800.000 ₫ / đêm</p>
-                  <p className="mt-1 text-[26px] leading-tight font-medium tracking-[-0.03em]">Đặt phòng trực tiếp với lễ tân</p>
+                  <p className="mt-1 text-[clamp(17px,1.9vw,22px)] leading-tight font-medium tracking-[-0.03em] whitespace-nowrap">Đặt phòng trực tiếp với lễ tân</p>
                   <p className="mt-3 flex items-start gap-2 text-[13.5px] text-snow/80">
                     <MapPin size={15} strokeWidth={1.6} className="mt-0.5 shrink-0" />
                     {contact.address}

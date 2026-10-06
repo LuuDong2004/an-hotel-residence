@@ -96,7 +96,7 @@ function Hero() {
 
         {/* Thanh dưới cùng: số thứ tự ảnh bên trái, vạch chuyển ảnh bên phải */}
         <motion.div
-          className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-6 px-5 pb-7 md:px-12 lg:px-16"
+          className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-6 pr-24 pb-7 pl-5 md:pr-28 md:pl-12 lg:pl-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.1 }}
@@ -231,16 +231,16 @@ function Features() {
                   setReached((r) => Math.max(r, i))
                 }}
                 viewport={{ margin: '-45% 0px -45% 0px' }}
-                className="border-b border-ink/12 py-10 first:pt-0 last:border-b-0 last:pb-0"
+                className="border-b border-ink/12 py-7 first:pt-0 last:border-b-0 last:pb-0 md:py-10"
               >
                 <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '0px 0px -28% 0px' }} transition={{ staggerChildren: 0.12 }}>
                   <motion.p variants={rise} className="flex items-center gap-2 text-[12px] font-semibold tracking-[0.08em] text-gold-deep uppercase">
                     <Icon size={15} strokeWidth={1.8} />
                     {tag}
                   </motion.p>
-                  <motion.h3 variants={rise} className={`mt-3 text-[28px] transition-colors duration-500 md:text-[36px] ${active === i ? 'text-gold-deep' : 'text-ink'}`}>{title}</motion.h3>
-                  <motion.p variants={rise} className="mt-3 max-w-2xl text-[16.5px] text-ink/75">{text}</motion.p>
-                  <motion.ul variants={rise} className="mt-5 flex flex-wrap gap-x-7 gap-y-2">
+                  <motion.h3 variants={rise} className={`mt-2.5 text-[23px] transition-colors duration-500 md:mt-3 md:text-[36px] ${active === i ? 'text-gold-deep' : 'text-ink'}`}>{title}</motion.h3>
+                  <motion.p variants={rise} className="mt-2 max-w-2xl text-[15px] text-ink/75 md:mt-3 md:text-[16.5px]">{text}</motion.p>
+                  <motion.ul variants={rise} className="mt-4 flex flex-wrap gap-x-7 gap-y-1.5 md:mt-5">
                     {points.map((p) => (
                       <li key={p} className="flex items-center gap-2 text-[14px] font-medium text-ink/80">
                         <CircleCheck size={16} strokeWidth={1.8} className="text-gold-deep" />
@@ -271,9 +271,11 @@ function Rooms() {
           </Link>
         }
       />
-      <div className="mt-14 grid gap-5 lg:grid-cols-3">
+      <div className="-mx-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:-mx-10 md:px-10 lg:mx-0 lg:mt-14 lg:grid lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0">
         {rooms.map((room, i) => (
-          <RoomCard key={room.id} room={room} delay={i * 120} />
+          <div key={room.id} className="w-[84%] shrink-0 snap-center sm:w-[56%] lg:w-auto">
+            <RoomCard room={room} delay={i * 120} />
+          </div>
         ))}
       </div>
     </section>
@@ -450,9 +452,9 @@ export function CallToAction() {
           <Reveal y={12}>
             <span className="eyebrow on-dark">Sẵn sàng trải nghiệm?</span>
           </Reveal>
-          <h2 className="mt-6 text-[38px] md:text-[64px]">
+          <h2 className="mt-6 text-[32px] md:text-[64px]">
             <SplitText text="Đặt phòng ngay hôm nay," />{' '}
-            <SplitText text="tận hưởng kỳ nghỉ hoàn hảo" delay={0.3} className="font-serif font-normal tracking-[-0.02em] text-gold-soft italic" />
+            <SplitText text="tận hưởng kỳ nghỉ hoàn hảo" delay={0.3} className="block font-serif font-normal tracking-[-0.02em] text-gold-soft italic" />
           </h2>
           <Reveal delay={200}>
             <p className="mt-6 max-w-xl text-[16.5px] text-snow/80">

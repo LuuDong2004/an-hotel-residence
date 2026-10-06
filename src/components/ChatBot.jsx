@@ -158,7 +158,7 @@ export default function ChatBot() {
               </span>
               <div className="min-w-0 flex-1 leading-tight">
                 <p className="text-[15.5px] font-medium">Trợ lý AN</p>
-                <p className="text-[12.5px] text-white/65">Tư vấn phòng & tính giá · 24/7</p>
+                <p className="truncate text-[12.5px] text-white/65">Tư vấn phòng & tính giá · 24/7</p>
               </div>
               <a href={contact.phoneHref} aria-label={`Gọi ${contact.phone}`} className="grid size-10 place-items-center rounded-full bg-white/10 transition-colors hover:bg-white/20">
                 <Phone size={17} strokeWidth={1.6} />

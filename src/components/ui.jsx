@@ -224,23 +224,23 @@ export function RateTable({ room }) {
   ]
   return (
     <div className="overflow-x-auto rounded-3xl border border-line bg-white">
-      <table className="w-full min-w-[420px] text-left">
+      <table className="w-full text-left">
         <thead>
           <tr className="bg-ivory/70 text-[12.5px] text-mute">
-            <th className="px-5 py-4 font-medium">Bảng giá</th>
-            <th className="px-5 py-4 text-right font-medium">Trong tuần · T2–T5</th>
-            <th className="px-5 py-4 text-right font-medium">Cuối tuần · T6–CN</th>
+            <th className="px-3 py-3.5 sm:px-5 sm:py-4 font-medium">Bảng giá</th>
+            <th className="px-3 py-3.5 sm:px-5 sm:py-4 text-right font-medium">Trong tuần <span className="block text-[11px] font-normal sm:inline sm:text-[12.5px] sm:font-medium">T2–T5</span></th>
+            <th className="px-3 py-3.5 sm:px-5 sm:py-4 text-right font-medium">Cuối tuần <span className="block text-[11px] font-normal sm:inline sm:text-[12.5px] sm:font-medium">T6–CN</span></th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.label} className="border-t border-line transition-colors hover:bg-paper/60">
-              <th scope="row" className="px-5 py-4 font-normal">
+              <th scope="row" className="px-3 py-3.5 sm:px-5 sm:py-4 font-normal">
                 <span className="block text-[15px] font-medium">{r.label}</span>
-                <span className="block text-[12.5px] text-mute">{r.hint}</span>
+                <span className="block text-[12px] whitespace-nowrap text-mute sm:text-[12.5px]">{r.hint}</span>
               </th>
               {r.pair.map((v, i) => (
-                <td key={i} className="px-5 py-4 text-right text-[17px] font-medium tracking-[-0.02em] whitespace-nowrap tabular-nums">
+                <td key={i} className="px-3 py-3.5 sm:px-5 sm:py-4 text-right text-[14.5px] font-medium tracking-[-0.02em] whitespace-nowrap tabular-nums sm:text-[17px]">
                   {formatVND(v)}
                 </td>
               ))}
