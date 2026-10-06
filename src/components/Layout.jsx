@@ -1,5 +1,5 @@
-import { AnimatePresence, MotionConfig, motion, useMotionValueEvent, useScroll, useSpring } from 'motion/react'
-import { ArrowUpRight, BedDouble, Compass, House, Images, Mail, MapPin, Menu, MessageCircle, Phone, Sparkles, Star, X } from 'lucide-react'
+import { AnimatePresence, MotionConfig, motion, useMotionValueEvent, useScroll } from 'motion/react'
+import { ArrowUpRight, BedDouble, CalendarDays, ChevronDown, Compass, House, Images, Mail, MapPin, Menu, MessageCircle, Phone, Sparkles, Star, X } from 'lucide-react'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { contact, nav, otas } from '../data/site'
@@ -24,6 +24,28 @@ const menuMeta = {
   '/contact': { icon: MessageCircle, hint: 'Địa chỉ, hotline, bản đồ chỉ đường' },
 }
 
+// Menu trên điện thoại: các trang phụ nằm trong "Xem thêm"
+const moreNav = ['/reviews', '/attractions', '/contact']
+const groupLabel = 'px-3 pt-3 pb-1.5 text-[11px] font-semibold tracking-[0.1em] text-mute uppercase'
+const rowBase = 'flex items-center gap-3.5 rounded-2xl px-2.5 py-2 text-[15.5px] font-medium transition-colors hover:bg-paper'
+const rowIcon = 'grid size-10 shrink-0 place-items-center rounded-full bg-paper text-gold-deep'
+
+function MenuRow({ item, onClick }) {
+  const { icon: Icon } = menuMeta[item.to]
+  return (
+    <NavLink to={item.to} end={item.to === '/'} onClick={onClick} className={({ isActive }) => `${rowBase} ${isActive ? 'bg-paper text-gold-deep' : ''}`}>
+      {({ isActive }) => (
+        <>
+          <span className={`grid size-10 shrink-0 place-items-center rounded-full text-gold-deep ${isActive ? 'bg-white' : 'bg-paper'}`}>
+            <Icon size={19} strokeWidth={1.6} />
+          </span>
+          {item.label}
+        </>
+      )}
+    </NavLink>
+  )
+}
+
 function Logo({ onClick }) {
   return (
     <Link to="/" onClick={onClick} className="flex shrink-0 items-center gap-3 whitespace-nowrap" aria-label="AN Hotel & Residence — Trang chủ">
@@ -40,9 +62,9 @@ function Logo({ onClick }) {
 function Header() {
   const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
+  const [more, setMore] = useState(false)
   const { pathname } = useLocation()
-  const { scrollY, scrollYProgress } = useScroll()
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 24 })
+  const { scrollY } = useScroll()
 
   // Ẩn khi cuộn xuống, hiện lại khi cuộn lên
   useMotionValueEvent(scrollY, 'change', (y) => {
@@ -59,8 +81,6 @@ function Header() {
 
   return (
     <>
-      <motion.div aria-hidden className="fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-gold" style={{ scaleX: progress }} />
-
       <motion.header
         className="fixed inset-x-0 top-0 z-40 px-3 pt-4 md:px-6"
         initial={{ y: -90, opacity: 0 }}
@@ -119,13 +139,61 @@ function Header() {
               transition={{ duration: 0.3 }}
             />
             <motion.div
-              className="fixed inset-x-3 top-[88px] z-40 mx-auto max-h-[calc(100dvh-104px)] max-w-[980px] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-[32px] border border-white/60 bg-paper p-3 shadow-pop md:inset-x-6"
+              className="fixed top-[84px] right-3 z-40 max-h-[calc(100dvh-100px)] w-[min(310px,calc(100vw-24px))] origin-top-right overflow-y-auto rounded-[26px] border border-line bg-white p-2 shadow-pop lg:inset-x-6 lg:top-[88px] lg:mx-auto lg:w-auto lg:max-w-[980px] lg:origin-top lg:rounded-[32px] lg:border-white/60 lg:bg-paper lg:p-3"
               initial={{ opacity: 0, y: -18, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ duration: 0.4, ease }}
             >
-              <div className="grid gap-3 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
+              {/* Điện thoại: danh sách gọn chia nhóm */}
+              <div className="lg:hidden">
+                <div className="px-3 pt-2 pb-3">
+                  <p className="text-[15.5px] font-semibold tracking-[-0.02em]">AN Hotel & Residence</p>
+                  <p className="text-[12.5px] text-mute">West Lake · Hà Nội · Lễ tân 24/7</p>
+                </div>
+
+                <p className={groupLabel}>Khám phá</p>
+                <nav aria-label="Trang chính">
+                  {nav.filter((n) => !moreNav.includes(n.to)).map((item) => (
+                    <MenuRow key={item.to} item={item} onClick={() => setOpen(false)} />
+                  ))}
+                </nav>
+
+                <p className={groupLabel}>Đặt phòng</p>
+                <Link to="/booking" onClick={() => setOpen(false)} className={`${rowBase} text-gold-deep`}>
+                  <span className={rowIcon}>
+                    <CalendarDays size={19} strokeWidth={1.6} />
+                  </span>
+                  Đặt phòng ngay
+                </Link>
+                <a href={contact.phoneHref} className={rowBase}>
+                  <span className={rowIcon}>
+                    <Phone size={18} strokeWidth={1.6} />
+                  </span>
+                  {contact.phone}
+                </a>
+
+                <div className="mt-2 border-t border-line pt-2">
+                  <button type="button" aria-expanded={more} onClick={() => setMore((v) => !v)} className={`${rowBase} w-full text-mute`}>
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-paper text-ink/70">
+                      <ChevronDown size={18} strokeWidth={1.8} className={`transition-transform duration-300 ${more ? 'rotate-180' : ''}`} />
+                    </span>
+                    {more ? 'Thu gọn' : 'Xem thêm'}
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {more && (
+                      <motion.nav aria-label="Trang khác" className="overflow-hidden" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease }}>
+                        {nav.filter((n) => moreNav.includes(n.to)).map((item) => (
+                          <MenuRow key={item.to} item={item} onClick={() => setOpen(false)} />
+                        ))}
+                      </motion.nav>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Desktop: lưới ô + thẻ ảnh */}
+              <div className="hidden gap-3 lg:grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
                 <nav aria-label="Tất cả trang" className="grid gap-2 sm:grid-cols-2">
                   {nav.map((item, i) => {
                     const { icon: Icon, hint } = menuMeta[item.to]
