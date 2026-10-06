@@ -29,7 +29,7 @@ function Message({ m, onChip, onNavigate, last }) {
                 <button type="button" onClick={() => onChip({ label: r.short, action: { kind: 'pickRoom', id: r.id } })} className="group flex w-full items-center gap-3 rounded-2xl bg-paper p-2 text-left transition-colors hover:bg-ivory">
                   <img src={r.cover} alt="" className="size-14 shrink-0 rounded-xl object-cover" />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[14.5px] font-medium">{r.name}</span>
+                    <span className="block truncate text-[14.5px] font-medium">{r.short}</span>
                     <span className="block text-[12.5px] text-mute">
                       {r.area} m² · từ {formatVND(fromPrice(r))}
                     </span>
@@ -145,13 +145,13 @@ export default function ChatBot() {
           <motion.section
             role="dialog"
             aria-label="Trợ lý AN Hotel"
-            className="fixed inset-x-2 bottom-2 z-50 flex h-[min(680px,calc(100dvh-16px))] origin-bottom-right flex-col overflow-hidden rounded-[28px] border border-white/60 bg-paper shadow-pop sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-[410px]"
+            className="fixed right-3 bottom-3 z-50 flex h-[min(520px,calc(100dvh-108px))] w-[min(350px,calc(100vw-24px))] origin-bottom-right flex-col overflow-hidden rounded-[26px] border border-white/60 bg-paper shadow-pop sm:right-6 sm:bottom-6 sm:h-[min(680px,calc(100dvh-48px))] sm:w-[410px] sm:rounded-[28px]"
             initial={{ opacity: 0, scale: 0.85, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.35, ease }}
           >
-            <header className="flex items-center gap-3 bg-ink px-4 py-3.5 text-white">
+            <header className="flex items-center gap-3 bg-ink px-3.5 py-2.5 text-white sm:px-4 sm:py-3.5">
               <span className="relative grid size-11 shrink-0 place-items-center rounded-full bg-gold text-night">
                 <BotMessageSquare size={22} strokeWidth={1.6} />
                 <span className="absolute right-0 bottom-0 size-3 rounded-full border-2 border-ink bg-emerald-500" />
@@ -168,7 +168,7 @@ export default function ChatBot() {
               </button>
             </header>
 
-            <div ref={listRef} aria-live="polite" className="flex-1 space-y-3.5 overflow-y-auto [scrollbar-width:none] px-4 py-5 [&::-webkit-scrollbar]:hidden">
+            <div ref={listRef} aria-live="polite" className="flex-1 space-y-3 overflow-y-auto [scrollbar-width:none] px-3 py-4 sm:space-y-3.5 sm:px-4 sm:py-5 [&::-webkit-scrollbar]:hidden">
               {messages.map((m, i) => (
                 <Message key={i} m={m} last={i === messages.length - 1 && !typing} onNavigate={() => setOpen(false)} onChip={(c) => send({ action: c.action }, c.label)} />
               ))}
@@ -181,7 +181,7 @@ export default function ChatBot() {
               )}
             </div>
 
-            <form onSubmit={submit} className="flex items-center gap-2 border-t border-line bg-white p-3">
+            <form onSubmit={submit} className="flex items-center gap-2 border-t border-line bg-white p-2.5 sm:p-3">
               <input
                 ref={inputRef}
                 value={input}
